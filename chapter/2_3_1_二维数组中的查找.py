@@ -26,6 +26,33 @@ testMatrix[3][1]
 
 find_num = 7
 
+def find_val(matrix,num):
+    find_flag = False
+    if matrix is None:
+        return find_flag
+    rows = len(matrix)
+    columns = len(matrix[0])
+    column = columns - 1
+    row = 0
+    while(column > 0 and row < rows):
+        if matrix[row][column] == num:
+            find_flag = True
+            break
+        elif matrix[row][column] > num:
+            column -= 1
+        else:
+            row += 1
+    return find_flag
+        
+find_num = 7
+find_val(matrix,find_num)
+
+
+
+
+
+
+
 def find(matrix,rows,columns,number):
 
     found_flag = False
