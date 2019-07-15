@@ -16,6 +16,52 @@ Created on Thu Jun 13 15:19:02 2019
 直接pop()就可以了。两个栈各自先进后出，在一起又实现了队列的新进先出。
 """
 
+
+class Solution:
+    def __init__(self):
+        self.StackA = []
+        self.StackB = []
+        
+    def push(self,x):
+        self.StackA.append(x)
+        
+    def pop(self):
+        if self.StackB:
+            return self.StackB.pop()
+        if not self.StackA:
+            return None
+        while(self.StackA):
+            self.StackB.append(self.StackA.pop())
+        
+        return self.StackB.pop
+
+if __name__=='__main__':
+    a=Solution()
+    a.push(1)
+    a.push(7)
+    a.push(3)
+    a.push(5)
+    print(a.pop())
+    print(a.pop())
+    print(a.pop())
+    print(a.pop())
+    print(a.pop())    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Solution:
     def __init__(self):
         self.stackA = []
@@ -25,35 +71,15 @@ class Solution:
         self.stackA.append(x)
     
     def pop(self):
-        if self.stackB:
+        if(self.stackB):
             return self.stackB.pop()
         elif not self.stackA:
             return None
         else:
             while(self.stackA):
                 self.stackB.append(self.stackA.pop())
-            return self.stackB.pop()
-
-class Solution:
-    def __init__(self):
-        self.stackA=[]
-        self.stackB=[]
-    def push(self, node):
-        # write code here
-        self.stackA.append(node)
-    def pop(self):
-        # return xx
-        if self.stackB:
-            return self.stackB.pop()
-        elif not self.stackA:
-            return None
-        else:
-            while self.stackA:
-                self.stackB.append(self.stackA.pop())
-            return self.stackB.pop()
-        
-        
-#测试
+            return self.stackB.pop
+          
 if __name__=='__main__':
     a=Solution()
     a.push(1)
@@ -69,7 +95,17 @@ if __name__=='__main__':
         
         
         
+df_test = pd.DataFrame({'A':[1,2,3],'B':[3,4,5]})
+
+df_test['C'] = df_test['B'].copy()
         
+        
+        
+        
+        
+        
+        
+    
         
         
         

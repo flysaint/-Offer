@@ -19,27 +19,43 @@ NOTE：给出的所有元素都大于0，若数组大小为0，请返回0
 class Solution:
     def get_min_numInRotateArr(self,arr):
         '''
-        把信息利用到极致
-        因为有两个数组，两数组。前面的是大数组，后面的是小数组。
-        我要找到大数组的最后一个元素。下一个就是最小值。
+        说白了，还是尽量利用数组部分有序的信息。
+        折半查找0
         '''
-        p1 = 0
-        p2 = len(arr) - 1
-        if arr[p1] > arr[p2]:
-            while(p2 - p1 > 1):
-                mid = p1 + int((p2 - p1)/2)
-                print("p1 = {},p2 ={},mid = {}".format(p1,p2,mid))
-                print("arr[p1] = {},arr[p2] = {},arr[mid] = {}".format(arr[p1],arr[p2],arr[mid]))
-                if arr[mid] > arr[p1]:
-                    p1 = mid
-                    continue
-                elif arr[mid] < arr[p2]:
-                    p2 = mid
-                    continue
-            return arr[p2]
-        else:
-            return arr[p1]
         
+        
+        L = 0
+        R = len(arr) - 1
+        
+        if(arr[L] < arr[R]):
+            return arr[L]
+        
+        while(L < R):
+            mid = L + int((R-L)/2)
+            if (arr[mid] > arr[L]):
+                L = mid+1
+            elif(arr[mid] < arr[R]):
+                R = mid-1
+            else:
+                return arr[mid]
+            
+        return arr[L]
+        
+
+        
+        
+if __name__ == '__main__':
+    testArr = [3,4,5,1,2]
+    #testArr = [5,1,2,3,4]
+    a = Solution()
+    #a.minNumberInRotateArray2(testArr)
+    print(a.get_min_numInRotateArr(testArr))
+    #print(testArr)        
+        
+
+
+
+
         
         
         

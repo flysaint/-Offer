@@ -12,37 +12,30 @@ Created on Wed Jun 12 17:20:00 2019
 提示：二叉树结点，以及对二叉树的各种操作，测试代码见six.py
 案例：输入先序遍历 {1,2,4,7,3,5,6,8}中序遍历 {4,7,2,1,5,3,8,6}
 
+重新用树将节点组合起来，返回根节点
 """
 
-# 定义节点
-class TreeNode:
+class Node:
     def __init__(self,x):
         self.val = x
-        self.left = None
         self.right = None
+        self.left = None
         
 
-def construct_tree(preorder=None, inorder=None):
-    '''
-    思路。中止条件判断；生成根节点。生成新的左右子树。
-    '''
-    root = TreeNode(preorder[0])
-    root_index = inorder.index(preorder[0])
-    left = inorder[:root_index]
-    right = inorder[root_index+1:]
-    root.left = construct_tree(preorder[1:len(left)+1],inorder[:root_index])
-    root.right = construct_tree(preorder[len(left)+1:],inorder[root_index+1:])
-    
-    return root
-
-
-
-
-
-
+class Solution:
+    def construct_tree(preorder=None, inorder=None):
+        root = Node(preorder[0])
+        
+        root_index = inorder.index(root.val)
+        
+        root.left = construct_tree(preorder[1:root_index+1],inorder[0:root_index])
+        root.right = construct_tree(preorder[root_index+1:],inorder[root_index+1:])
+        
+        return root
 
 
 class TreeNode:
+
     def __init__(self, x):
         self.val = x
         self.left = None
@@ -50,19 +43,6 @@ class TreeNode:
         
         
 class Solution:
-    # 返回构造的TreeNode根节点
-    def reConstructBinaryTree(self, pre, tin):
-        # write code here
-        if not pre or not tin:
-            return None
-        root=TreeNode(pre[0])
-        val=tin.index(pre[0])
-        
-        root.left=self.reConstructBinaryTree(pre[1:val+1],tin[:val])
-        root.right=self.reConstructBinaryTree(pre[val+1:],tin[val+1:])
-        return root
-    
-    
     def construct_tree(preorder=None, inorder=None):
     """
     构建二叉树
@@ -72,6 +52,8 @@ class Solution:
     3. 获取左右子树。
     4. 使用当前先序遍历的节点作为新的根节点。
     5. 递归衍生左子树。递归衍生右子树。
+    
+    不断创建节点，让节点相连，并返回根节点的过程
     
     """
         if not preorder or not inorder:
@@ -89,7 +71,9 @@ class Solution:
 if __name__ == '__main__':
     
     reConstructBinaryTree()
-    
+    list_a = [1,2,3,4,5,6,8]
+
+    list_a.index(8)
     
     
     
