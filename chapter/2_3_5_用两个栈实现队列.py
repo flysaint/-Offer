@@ -19,21 +19,26 @@ Created on Thu Jun 13 15:19:02 2019
 
 class Solution:
     def __init__(self):
-        self.StackA = []
-        self.StackB = []
+        self.stackA = []
+        self.stackB = []
         
     def push(self,x):
-        self.StackA.append(x)
-        
+        self.stackA.append(x)
+    
     def pop(self):
-        if self.StackB:
-            return self.StackB.pop()
-        if not self.StackA:
-            return None
-        while(self.StackA):
-            self.StackB.append(self.StackA.pop())
         
-        return self.StackB.pop
+        if self.stackB:
+            return self.stackB.pop()
+        elif self.stackA:
+            while(self.stackA):
+                self.stackB.append(self.stackA.pop())
+            return self.stackB.pop()
+        else:
+            return 
+        
+
+
+
 
 if __name__=='__main__':
     a=Solution()

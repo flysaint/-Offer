@@ -26,7 +26,7 @@ def swap(arr,i,j):
     arr[j] = tmp
     
 
-def reOrderArray(arr):
+def reOrderArray1(arr):
 
     # 边界要判断和处理下
     i = 0
@@ -45,34 +45,24 @@ def reOrderArray(arr):
             swap(arr,i,j)
             i = i + 1
             j = j - 1
-
-
-# -*- coding:utf-8 -*-
-class Solution:
-    def reOrderArray(self, array):
-        # write code here
-        if array==None or len(array)==0:
-            return
-        pBegin=0
-        pEnd=len(array)-1
-        while (pBegin<pEnd):
-            while pBegin<pEnd and not self.isEven(array[pBegin]):
-                pBegin += 1
-            while pBegin<pEnd and self.isEven(array[pEnd]):
-                pEnd -= 1
-            if pBegin<pEnd:
-                temp=array[pBegin]
-                array[pBegin]=array[pEnd]
-                array[pEnd]=temp
-        return array
-
-    def isEven(self,number):
-        return number & 1==0
+            
+            
+#题二：在题一基础上，要求奇数和奇数，偶数和偶数的相对位置保持不变
+def reOrderArray2(array):
+    # write code here
+    res1 = []
+    res2 = []
+    for i in array:
+        if i % 2 != 0:
+            res1.append(i)
+        else:
+            res2.append(i)
+    return res1 + res2
 
 
 if __name__ == '__main__':
     arr = random.sample(range(100),5)
-    reOrderArray(arr)
+    reOrderArray1(arr)
     print(arr)
         
         
