@@ -1,66 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jun 12 17:20:00 2019
+Created on Wed Aug 14 11:03:39 2019
 
 @author: DELL
 
-要求：用前序和中序遍历结果构建二叉树，遍历结果中不包含重复值
+4_3_23_从上往下打印二叉树
 
-思路：前序的第一个元素是根结点的值，在中序中找到该值，中序中该值的左边的元素是根结点的左子树，
-00右边是右子树，然后递归的处理左边和右边
+肯定是递归或者循环
 
-提示：二叉树结点，以及对二叉树的各种操作，测试代码见six.py
-案例：输入先序遍历 {1,2,4,7,3,5,6,8}中序遍历 {4,7,2,1,5,3,8,6}
 
-重新用树将节点组合起来，返回根节点
+怎么初始化二叉树
 
-学习点。
-1. 还是不要忘了递归边界。
-2. self可以不用作为参数传入类函数。
-
-先序遍历：根左右
-中序遍历：左根右
+定义后手动进行关联，或者先生成节点
 
 """
-class Node:
-    def __init__(self,x):
-        self.data = x
-        self.right = None
-        self.left = None
-        
 
-class Solution:
-    def construct_tree(self,preorder=None, inorder=None):
-        if not preorder or not inorder:
-            return None
-        root = Node(preorder[0])
-        
-        root_index = inorder.index(root.data)
-        
-        root.left = self.construct_tree(preorder[1:root_index+1],inorder[0:root_index])
-        root.right = self.construct_tree(preorder[root_index+1:],inorder[root_index+1:])
-        
-        return root
+from collections import namedtuple
+from io import StringIO
+import math
 
-'''
-class TreeNode:
-    def __init__(self, x):
-        self.data = x
-        self.left = None
-        self.right = None
-class Solution:
-    # 返回构造的TreeNode根节点
-    def reConstructBinaryTree(self, pre, tin):
-        # write code here
-        if not pre or not tin:
-            return None
-        root=TreeNode(pre[0])
-        val=tin.index(pre[0])
-        
-        root.left=self.reConstructBinaryTree(pre[1:val+1],tin[:val])
-        root.right=self.reConstructBinaryTree(pre[val+1:],tin[val+1:])
-        return root
-    
 
 class Queue(object):
     def __init__(self):
@@ -159,17 +117,110 @@ def pretty_print(tree):
                 pretty_output.write('\n')
                 cnt = cnt + 1
 
-    print(pretty_output.getvalue())    
+    print(pretty_output.getvalue())
 
-'''    
-if __name__ == '__main__':
+
+
+class tree(object):
+    def __init__(self,x):
+        self.data = x
+        self.left = None
+        self.right = None
+        
+'''
+怎么实现递归
+
+用一个两个list实现。一个放值，一个节点。
+每次放进去一个node，然后出列。将值放入值list再把左右孩子放进去。再出列一个，
+'''
+
+class Solution():
     
-    preorder =    [1,2,4,7,3,5,6,8] 
-    inorder =    [4,7,2,1,5,3,8,6]   
+    
+    def printTree(self,node):
+        # 没有根节点        
+        if not node:
+            return []
+        
+        res = []
+        res_data = []
+        res.append(node)
+        while(res):
+            node = res.pop(0)
+            res_data.append(node.data)
+            if node.left:
+                res.append(node.left)
+            if node.right:
+                res.append(node.right)
+        
+        return res_data
+            
+            
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+            
+    # 返回从上到下每个节点值列表，例：[1,2,3]
+    def PrintFromTopToBottom(self, root):
+        # write code here
+        if not root:
+            return []
+        res=[]
+        res_val=[]
+        res.append(root)
+        while len(res)>0:
+            node=res.pop(0)
+            res_val.append(node.data)
+            if node.left:
+                res.append(node.left)
+            if node.right:
+                res.append(node.right)
+        return res_val
+
+'''
+思路：肯定是走递归
+
+一个node节点要设变把左右都遍历
+
+
+'''
+
+
+if __name__ == "__main__":
+    
+    node1 = tree(1)
+    node2 = tree(4)
+    node3 = tree(5)
+    node4 = tree(10)
+    node5 = tree(3)
+    node6 = tree(8)
+    
+    
+    node1.left = node2
+    node1.right = node3
+    node2.left = node4
+    node2.right = node5
+    node3.left = node6
+    
     s = Solution()
+    print(s.printTree(node1))
+    pretty_print(node1)
     
-    tree = s.construct_tree(preorder,inorder)
-
-    pretty_print(tree)
-    
+    #pretty_print(node1)
     

@@ -1,66 +1,90 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jun 12 17:20:00 2019
-
-@author: DELL
-
-要求：用前序和中序遍历结果构建二叉树，遍历结果中不包含重复值
-
-思路：前序的第一个元素是根结点的值，在中序中找到该值，中序中该值的左边的元素是根结点的左子树，
-00右边是右子树，然后递归的处理左边和右边
-
-提示：二叉树结点，以及对二叉树的各种操作，测试代码见six.py
-案例：输入先序遍历 {1,2,4,7,3,5,6,8}中序遍历 {4,7,2,1,5,3,8,6}
-
-重新用树将节点组合起来，返回根节点
-
-学习点。
-1. 还是不要忘了递归边界。
-2. self可以不用作为参数传入类函数。
-
-先序遍历：根左右
-中序遍历：左根右
-
-"""
-class Node:
-    def __init__(self,x):
-        self.data = x
-        self.right = None
-        self.left = None
-        
-
-class Solution:
-    def construct_tree(self,preorder=None, inorder=None):
-        if not preorder or not inorder:
-            return None
-        root = Node(preorder[0])
-        
-        root_index = inorder.index(root.data)
-        
-        root.left = self.construct_tree(preorder[1:root_index+1],inorder[0:root_index])
-        root.right = self.construct_tree(preorder[root_index+1:],inorder[root_index+1:])
-        
-        return root
 
 '''
-class TreeNode:
-    def __init__(self, x):
+04_1_19_mirror_binary_tree
+
+题目：二叉树的镜像
+
+题：操作给定的二叉树，将其变换为源二叉树的镜像。
+
+二叉树的镜像定义：源二叉树 
+    	    8
+    	   /  \
+    	  6   10
+    	 / \  / \
+    	5  7 9 11
+    	镜像二叉树
+    	    8
+    	   /  \
+    	  10   6
+    	 / \  / \
+    	11 9 7  5
+
+'''
+
+
+
+
+class TreeNode(object):
+    
+    def __init__(self,x):
         self.data = x
         self.left = None
         self.right = None
-class Solution:
-    # 返回构造的TreeNode根节点
-    def reConstructBinaryTree(self, pre, tin):
-        # write code here
-        if not pre or not tin:
-            return None
-        root=TreeNode(pre[0])
-        val=tin.index(pre[0])
         
-        root.left=self.reConstructBinaryTree(pre[1:val+1],tin[:val])
-        root.right=self.reConstructBinaryTree(pre[val+1:],tin[val+1:])
-        return root
+
+def mirror(pRoot):
     
+    
+    if pRoot is None:
+        return 
+    
+    if pRoot.left is None and pRoot.right is None:
+        return 
+    
+    
+    if pRoot is not None:
+    
+        # 不是交换值，交换指针
+        pTmp = pRoot.left
+        pRoot.left = pRoot.right
+        pRoot.right = pTmp
+        
+        if pRoot.left:
+            mirror(pRoot.left)
+        if pRoot.right:
+            mirror(pRoot.right)
+    
+from collections import namedtuple
+from io import StringIO
+import math
+
+# define the node structure
+Node = namedtuple('Node', ['data', 'left', 'right'])
+
+ 
+pRoot1 = TreeNode(8)
+pRoot2 = TreeNode(8)
+pRoot3 = TreeNode(7)
+pRoot4 = TreeNode(9)
+pRoot5 = TreeNode(2)
+pRoot6 = TreeNode(4)
+pRoot7 = TreeNode(7)
+pRoot1.left = pRoot2
+pRoot1.right = pRoot3
+pRoot2.left = pRoot4
+pRoot2.right = pRoot5
+pRoot5.left = pRoot6
+pRoot5.right = pRoot7
+
+pRoot8 = TreeNode(8)
+pRoot9 = TreeNode(9)
+pRoot10 = TreeNode(2)
+pRoot8.left = pRoot9
+pRoot8.right = pRoot10
+    
+
 
 class Queue(object):
     def __init__(self):
@@ -159,17 +183,11 @@ def pretty_print(tree):
                 pretty_output.write('\n')
                 cnt = cnt + 1
 
-    print(pretty_output.getvalue())    
+    print(pretty_output.getvalue())
 
-'''    
+
 if __name__ == '__main__':
-    
-    preorder =    [1,2,4,7,3,5,6,8] 
-    inorder =    [4,7,2,1,5,3,8,6]   
-    s = Solution()
-    
-    tree = s.construct_tree(preorder,inorder)
-
-    pretty_print(tree)
-    
-    
+    #pretty_print(tree)  
+    pretty_print(pRoot1)
+    mirror(pRoot1)
+    pretty_print(pRoot1)

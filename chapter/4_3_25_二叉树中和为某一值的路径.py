@@ -1,66 +1,69 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jun 12 17:20:00 2019
+Created on Mon Aug 19 14:24:51 2019
 
 @author: DELL
+4_3_25_二叉树中和为某一值的路径
 
-要求：用前序和中序遍历结果构建二叉树，遍历结果中不包含重复值
+题目：二叉树中和为某一值的路径
 
-思路：前序的第一个元素是根结点的值，在中序中找到该值，中序中该值的左边的元素是根结点的左子树，
-00右边是右子树，然后递归的处理左边和右边
+题：输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。
+路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。
 
-提示：二叉树结点，以及对二叉树的各种操作，测试代码见six.py
-案例：输入先序遍历 {1,2,4,7,3,5,6,8}中序遍历 {4,7,2,1,5,3,8,6}
+怎么从根节点遍历二叉树到叶子节点
 
-重新用树将节点组合起来，返回根节点
 
-学习点。
-1. 还是不要忘了递归边界。
-2. self可以不用作为参数传入类函数。
+用递归遍历二叉树的所有路径
 
-先序遍历：根左右
-中序遍历：左根右
-
+1. 路径pop，为什么可以传递出来。在递归中，对path的影响是什么。
 """
-class Node:
+
+
+class tree:
     def __init__(self,x):
-        self.data = x
-        self.right = None
-        self.left = None
-        
-
-class Solution:
-    def construct_tree(self,preorder=None, inorder=None):
-        if not preorder or not inorder:
-            return None
-        root = Node(preorder[0])
-        
-        root_index = inorder.index(root.data)
-        
-        root.left = self.construct_tree(preorder[1:root_index+1],inorder[0:root_index])
-        root.right = self.construct_tree(preorder[root_index+1:],inorder[root_index+1:])
-        
-        return root
-
-'''
-class TreeNode:
-    def __init__(self, x):
-        self.data = x
         self.left = None
         self.right = None
+        self.data = x
+
+
 class Solution:
-    # 返回构造的TreeNode根节点
-    def reConstructBinaryTree(self, pre, tin):
+    # 返回二维列表，内部每个列表表示找到的路径
+    def FindPath(self, root, expectNumber):
         # write code here
-        if not pre or not tin:
-            return None
-        root=TreeNode(pre[0])
-        val=tin.index(pre[0])
+        if not root:
+            return []
+        result=[]
         
-        root.left=self.reConstructBinaryTree(pre[1:val+1],tin[:val])
-        root.right=self.reConstructBinaryTree(pre[val+1:],tin[val+1:])
-        return root
-    
+        
+        
+        def FindPathCore(root,path,currentNum,expectNumber):
+            currentNum += root.data
+            path.append(root)
+            # 判断是否达到叶子节点
+            flag = (root.left==None and root.right==None)
+            
+            #如果到达叶子节点且当前值等于期望值
+            if currentNum==expectNumber and flag:
+                onepath=[]
+                for node in path:
+                    onepath.append(node.data)
+                result.append(onepath)
+                
+            if currentNum<expectNumber:
+                if root.left:
+                    FindPathCore(root.left,path,currentNum,expectNumber)
+                if root.right:
+                    FindPathCore(root.right,path,currentNum,expectNumber)
+            path.pop()
+                
+        FindPathCore(root,[],0,expectNumber)
+        return result
+
+
+from collections import namedtuple
+from io import StringIO
+import math
+
 
 class Queue(object):
     def __init__(self):
@@ -159,17 +162,39 @@ def pretty_print(tree):
                 pretty_output.write('\n')
                 cnt = cnt + 1
 
-    print(pretty_output.getvalue())    
+    print(pretty_output.getvalue())
 
-'''    
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     
-    preorder =    [1,2,4,7,3,5,6,8] 
-    inorder =    [4,7,2,1,5,3,8,6]   
+    node1 = tree(1)
+    node2 = tree(4)
+    node3 = tree(5)
+    node4 = tree(10)
+    node5 = tree(3)
+    node6 = tree(8)
+    
+    
+    node1.left = node2
+    node1.right = node3
+    node2.left = node4
+    node2.right = node5
+    node3.left = node6
+    
+    
+    pretty_print(node1)
     s = Solution()
+    print(s.FindPath(node1,15))
     
-    tree = s.construct_tree(preorder,inorder)
 
-    pretty_print(tree)
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     

@@ -4,6 +4,7 @@ Created on Wed Jul 24 13:49:24 2019
 
 @author: DELL
 
+3_4_17_合并两个排序链表
 
 面试25题：
 题目：合并两个排序的链表
@@ -32,11 +33,30 @@ class LinkList(object):
             node = Node(v)
             move.next = node
             move = move.next
-            
-class Solution(object):
-    
+
+
+
+# 返回合并后列表
+def MergeLink( pHead1, pHead2):
+    # write code here
+    if not pHead1:
+        return pHead2
+    elif not pHead2:
+        return pHead1
+    pMergedHead=None
+    if (pHead1.val<pHead2.val):
+        pMergedHead=pHead1
+        pMergedHead.next=Merge(pHead1.next,pHead2)
+    else:
+        pMergedHead=pHead2
+        pMergedHead.next=Merge(pHead1,pHead2.next)
+        
+    return pMergedHead
+
+          
+class Solution:
     # 返回合并后列表
-    def Merge(self, pHead1, pHead2):
+    def MergeLink(self, pHead1, pHead2):
         # write code here
         if not pHead1:
             return pHead2
@@ -51,45 +71,27 @@ class Solution(object):
             pMergedHead.next=self.Merge(pHead1,pHead2.next)
             
         return pMergedHead
-    
-    
-    def mergeLink(self,linkA,linkB):
-        headA = linkA.head
-        headB = linkB.head
-        
-        if headA.val > headB.val:
-            node = Node(headB.val)
-            headB = headB.next
-        else:
-            node = Node(headA.val)
-            headA = headA.next
-        
-        head = node
-            
-        while(headA and headB):
-            if headA.val > headB.val:
-                node.next = Node(headB.val)
-                headB = headB.next
-                node  = node.next
-            else:
-                node.next = Node(headA.val)
-                headA = headA.next
-                node = node.next
-                
-        while(headA):
-            node.next = Node(headA.val)
-            headA = headA.next
-            node = node.next
-            
-        while(headB):
-            node.next = Node(headB.val)
-            headB = headB.next
-            node = node.next
-            
-        return head
-            
             
 
+    # 返回合并后列表'
+    # 本次选择哪个节点。下次选择哪个节点
+    def Merge(self, pHead1, pHead2):
+        # write code here
+        if not self.pHead1:
+            return self.pHead2
+        elif not self.pHead2:
+            return self.pHead1
+        pMergedHead=None
+        if (self.pHead1.val< self.pHead2.val):
+            pMergedHead=self.pHead1
+            pMergedHead.next=self.Merge(pHead1.next,pHead2)
+        else:
+            pMergedHead=self.pHead2
+            pMergedHead.next=self.Merge(pHead1,pHead2.next)
+            
+        return pMergedHead
+    
+            
 if __name__ == "__main__":
     
     values = [1,2,3,4,5]
@@ -103,8 +105,9 @@ if __name__ == "__main__":
     link2 = LinkList()
     link2.initLinkList(values)
     
-    s = Solution()
-    link = s.mergeLink(link1,link2)
+    #s = Solution()
+    #link = s.MergeLink(link1,link2)
+    link = MergeLink(link1,link2)
     while(link):
         print(link.val)
         link = link.next

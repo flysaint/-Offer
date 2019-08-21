@@ -5,6 +5,8 @@ Created on Fri Jul 26 08:31:31 2019
 @author: DELL
 
 
+3_4_18_树的子结构
+
 题目：树的子结构
 
 题：输入两棵二叉树A和B，判断B是不是A的子结构。
@@ -13,6 +15,18 @@ Created on Fri Jul 26 08:31:31 2019
 
 输入两棵二叉树A，B，判断B是不是A的子结构
 空树不是任意一个树的子结构
+
+
+分几种情况处理呢？
+
+1. 如果到了当前节点上。当前节点相等，则继续判断左右孩子是否相等。
+
+可以用递归实现。
+
+
+寻找 第一课树上，有没有和第二树相等的部分
+
+
 """
 
 
@@ -21,6 +35,54 @@ class TreeNode:
         self.val = x
         self.left = None
         self.right = None
+        
+class Solution:
+    def HasSubtree(self, pRoot1, pRoot2):
+        if self.pRoot1 is None:
+            return False
+        
+        if self.pRoot2 is None:
+            return False
+        
+        if self.pRoot1.val == self.pRoot2.val:
+            return self.DoesTree1haveTree2(self, pRoot1, pRoot2)
+        else:
+            return self.HasSubtree(self, pRoot1.left, pRoot2) or self.HasSubtree(self, pRoot1.right, pRoot2)
+        
+     
+    def DoesTree1haveTree2(self, pRoot1, pRoot2):
+        if self.pRoot1 is None:
+            return False
+        
+        if self.pRoot2 is None:
+            return True
+        
+        if self.pRoot1.val != self.pRoot2.val:
+            return False
+        
+        if self.pRoot1.val == self.pRoot2.val:
+            return self.DoesTree1haveTree2(self.pRoot1.left,self.pRoot2.left) and self.DoesTree1haveTree2(self.pRoot1.right,self.pRoot2.right)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+'''
 class Solution:
     def HasSubtree(self, pRoot1, pRoot2):
         result = False
@@ -45,7 +107,7 @@ class Solution:
 
         return self.DoesTree1haveTree2(pRoot1.left, pRoot2.left) and self.DoesTree1haveTree2(pRoot1.right, pRoot2.right)
 
-
+'''
 pRoot1 = TreeNode(8)
 pRoot2 = TreeNode(8)
 pRoot3 = TreeNode(7)

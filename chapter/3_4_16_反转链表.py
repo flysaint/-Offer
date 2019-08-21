@@ -4,6 +4,8 @@ Created on Tue Jul 23 09:18:07 2019
 
 @author: DELL
 
+3_4_16_反转链表
+
 题目：反转链表
 
 题：输入一个链表，反转链表并输出反转后链表的头节点。
@@ -21,6 +23,14 @@ Created on Tue Jul 23 09:18:07 2019
 1. 箱子的组成。对象地址，下一个对象的地址。
 2. 对箱子赋值。就是把另外一个箱子里的东西，复制一套，覆盖掉这个箱子里的所有东西。
 3. 
+
+
+反转链表的思路
+
+给了一个node节点。其实就是变换下指针
+
+
+
 
 """
 
@@ -47,24 +57,27 @@ class Solution:
     # 返回ListNode
     def ReverseList(self, pHead):         
         pNode = pHead
-        pPrev = None
-        pReverseHead = None
+        pPrev = None 
+        pNext = pNode.next
         
-        while(pNode):
-            pNext = pNode.next
-            if(not pNext):
-                pReverseHead = pNode
+        while(pNext):
+            
             pNode.next = pPrev
             pPrev = pNode
             pNode = pNext
+            pNext = pNext.next
         
-        return pReverseHead
         
+        pNode.next = pPrev
+        
+        return pNode     
+
             
             
 
-
-
+'''
+其实没错，只是需要多一步？
+'''
 
 
 
@@ -107,9 +120,11 @@ class Solution:
 if __name__ == "__main__":
     
     values = [1,2,3,4,5]
+    #values = [1]
     
     link1 = LinkList()
     link1.initLinkList(values)
+    
     '''
     pHead = link1.head
     pNode = pHead
