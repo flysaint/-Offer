@@ -75,7 +75,25 @@ class Solution:
         return head,node
     
     
-            
+    def Convert_1(self, pRootOfTree):
+        # write code here
+        if not pRootOfTree:
+            return
+        self.attr=[]
+        self.inOrder_1(pRootOfTree)
+        
+        for i,v in enumerate(self.attr[:-1]):
+            self.attr[i].right=self.attr[i+1]
+            self.attr[i+1].left=v
+        
+        return self.attr[0]
+    
+    def inOrder_1(self,root):
+        if not root:
+            return
+        self.inOrder_1(root.left)
+        self.attr.append(root)
+        self.inOrder_1(root.right)        
             
             
             
