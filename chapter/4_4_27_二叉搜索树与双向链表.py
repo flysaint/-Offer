@@ -74,7 +74,7 @@ class Solution:
         
         return head,node
     
-    
+    # 方案1 中序遍历。将节点放到attr中。枚举attr,下一个节点放到右指针，下一个节点的左指针，指向当前节点
     def Convert_1(self, pRootOfTree):
         # write code here
         if not pRootOfTree:
@@ -86,7 +86,8 @@ class Solution:
             self.attr[i].right=self.attr[i+1]
             self.attr[i+1].left=v
         
-        return self.attr[0]
+        #return self.attr[0]
+        return self.attr
     
     def inOrder_1(self,root):
         if not root:
@@ -96,8 +97,51 @@ class Solution:
         self.inOrder_1(root.right)        
             
             
+    
+    # 方案2
+    def Convert_2(self, pRootOfTree):
+        # write code here
+        if not pRootOfTree:
+            return
+        root=pHead=pRootOfTree
+        while pHead.left:
+            pHead=pHead.left
+        self.Core_2(root)
+        return pHead
+    
+    # 找到左子树的，根节点右子树，把他们关联起来。
+    # 找到右子树的，根节点左子树，把他们关联起来。
+    def Core_2(self,root):
+        
+        
+        if not root.left and not root.right:
+            return
+        
+        # 处理左子树上的关联
+        if root.left:
+            # 左孩子作为前节点？
+            preRoot=root.left
+            # 递归。为什么递归要放这里？
+            # 不管关联左子树
+            self.Core_2(root.left)
+            # 存在右孩子
+            while preRoot.right:
+                # 不断寻找到右孩子的叶子节点
+                preRoot=preRoot.right
+            # 初始根节点关联左孩子的右节点
+            preRoot.right=root
+            # 双向链表继续关联
+            root.left=preRoot
             
-            
+        # 处理右子树上的关联    
+        if root.right:
+            nextRoot=root.right
+            self.Core_2(root.right)
+            while nextRoot.left:
+                nextRoot=nextRoot.left
+            nextRoot.left=root
+            root.right=nextRoot        
+     
             
             
                 
@@ -125,7 +169,9 @@ if __name__ == "__main__":
     
     
     #pretty_print(node1)
+    
     s = Solution()
+    '''
     path_val,path = s.mid_traverse(node1)
     head,node = s.trans_2_double_linked(path_val)
     #print(head)
@@ -133,8 +179,8 @@ if __name__ == "__main__":
     while(node):
         print(node.data)
         node = node.prev
-    
-    '''
+        
+        
     while(head):
         print(head)
         head = head.next
@@ -144,10 +190,10 @@ if __name__ == "__main__":
         print(node)
         node = node.prev
     '''
-
-
-
-
+    path = s.Convert_1(node1)
+    
+    for v in path:
+        print(v.data)
 
 
 
